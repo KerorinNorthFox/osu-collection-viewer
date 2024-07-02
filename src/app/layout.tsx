@@ -24,8 +24,8 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange>
           <Header />
-          <main className="flex justify-center h-screen pt-header bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text transition-colors duration-bg">
-            <div className="max-w-full lg:w-[70%] lg:mx-auto">{children}</div>
+          <main className="flex justify-center h-screen pt-header bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text">
+            <div className="w-full lg:w-[70%] lg:mx-auto">{children}</div>
           </main>
         </ThemeProvider>
       </body>
