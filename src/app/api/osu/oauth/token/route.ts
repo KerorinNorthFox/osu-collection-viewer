@@ -1,3 +1,4 @@
+import { NextRequest, NextResponse } from "next/server";
 import { Auth } from "osu-web.js";
 
 interface RequestType {
@@ -10,14 +11,17 @@ interface ResponseType {
   token: string;
 }
 
-export async function POST(req: Request) {
-  const { osuClientId, osuClientSecret, osuRedirectUrl }: RequestType =
-    await req.json();
+export async function POST(req: NextRequest): Promise<NextResponse> {
+  const data: RequestType = await req.json();
 
-  const auth = new Auth(osuClientId, osuClientSecret, osuRedirectUrl);
+  const auth = new Auth(
+    data.osuClientId,
+    data.osuClientSecret,
+    data.osuRedirectUrl,
+  );
   const token = await auth.clientCredentialsGrant();
 
-  return Response.json({
+  return NextResponse.json({
     token: token,
   });
 }

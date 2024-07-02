@@ -21,7 +21,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
+          enableSystem
           disableTransitionOnChange>
           <Header />
           <main className="flex justify-center h-screen pt-header bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text">
