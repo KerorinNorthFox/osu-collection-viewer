@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/Header";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +19,15 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={inter.className}>
-        <Header />
-        <main className="flex justify-center w-full lg:w-[70%] lg:mx-auto h-[calc(100vh-3rem)] pt-header ">
-          {children}
-        </main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          disableTransitionOnChange>
+          <Header />
+          <main className="flex justify-center w-full lg:w-[70%] lg:mx-auto h-screen pt-header bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text transition-colors duration-bg">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );
