@@ -1,13 +1,32 @@
 "use client";
+import { arrayBufferToJson, readFileAsArrayBuffer } from "@/lib/buffer/convert";
+import { logger } from "@/lib/logger/logger";
+import { OsuCollectionDB, OsuDB } from "@/lib/types/external";
 import { FileInput, Label } from "flowbite-react";
 import { useState } from "react";
+import NotifyToast, { NotifyToastLevel } from "./NotifyToast";
 
-const UploadFile = () => {
+interface UploadFileProps {
+  setOsuDB: React.Dispatch<React.SetStateAction<OsuDB | null>>;
+  setOsuCollectionDB: React.Dispatch<
+    React.SetStateAction<OsuCollectionDB | null>
+  >;
+}
+
+interface NotifyToastContent {
+  uniqueId: string;
+  text: string;
+  level: NotifyToastLevel;
+}
+
+const UploadFile = (props: UploadFileProps) => {
+  const { setOsuDB, setOsuCollectionDB } = props;
   const [isDropzoneDisabled, setIsDropzoneDisabled] = useState(false);
-  const [isOpenLoadingModal, setIsOpenLoadingModal] = useState(false);
-  const [loadingFileName, setLoadingFileName] = useState("");
+  const [notifyToastList, setNotifyToastList] = useState<
+    Array<NotifyToastContent>
+  >([]);
 
-  function onDrop(files: FileList | null) {
+  async function onDrop(files: FileList | null) {
     if (files == null) return;
 
     for (let i = 0; i < files.length; i++) {
@@ -19,11 +38,73 @@ const UploadFile = () => {
         );
         return;
       }
-      setLoadingFileName(file.name);
+      setNotifyToastList([
+        ...notifyToastList,
+        {
+          uniqueId: `toast-${file.name}-${Math.random()}`,
+          text: `Loading ${file.name}...`,
+          level: NotifyToastLevel.Loading,
+        },
+      ]);
 
       console.log(`The file ${file.name} is correct;`);
+
+      try {
+        // バイナリを読み込める形に変換
+        const arrBuf = await readFileAsArrayBuffer(file);
+        const arrBufJson = arrayBufferToJson(arrBuf);
+        console.log(arrBufJson);
+
+        const res = await fetch(`/api/db/parser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(
+            Object.assign(arrBufJson, {
+              dbType: file.name.match("collection.db") ? "collection" : "osu",
+            }),
+          ),
+        });
+
+        if (!res.ok) {
+          alert(`${res.statusText}\nFailed to upload the DB file.`);
+          return;
+        }
+
+        const data = await res.json();
+
+        if (!data.success) {
+          alert("Failed to load the DB.");
+          return;
+        }
+        logger.info(`DB loading completed successfully.\n${data.data}`);
+
+        if (file.name.match("osu!.db")) {
+          setOsuDB(data.data);
+        } else if (file.name.match("collection.db")) {
+          setOsuCollectionDB(data.data);
+        }
+
+        setNotifyToastList([
+          ...notifyToastList,
+          {
+            uniqueId: `toast-${file.name}-${Math.random()}`,
+            text: `Loading ${file.name} completed successfully.`,
+            level: NotifyToastLevel.Success,
+          },
+        ]);
+      } catch (e) {
+        alert(e);
+        return;
+      }
     }
   }
+
+  const removeToast = (id: string) => {
+    setNotifyToastList((prev) => prev.filter((toast) => toast.uniqueId !== id));
+  };
 
   return (
     <div className="m-4">
@@ -50,22 +131,37 @@ const UploadFile = () => {
               Click or drag and drop to upload{" "}
               <span className="font-bold"></span>
             </p>
-            <p className="text-lg font-semibold">Osu!.db and collection.db</p>
+            <p className="text-lg font-semibold">osu!.db and collection.db</p>
           </div>
           <FileInput
             id="dropzone-file"
             className="hidden"
-            multiple
             disabled={isDropzoneDisabled}
-            onChange={(e) => {
-              setIsOpenLoadingModal(true);
+            onChange={async (e) => {
               setIsDropzoneDisabled(true);
-              onDrop(e.currentTarget.files);
-              setIsOpenLoadingModal(false);
+              await onDrop(e.currentTarget.files);
               setIsDropzoneDisabled(false);
             }}
           />
         </Label>
+      </div>
+      <div className="absolute right-0 bottom-0">
+        <ul className="p-4 space-y-4">
+          {notifyToastList.map((item) => {
+            return (
+              <li key={item.uniqueId}>
+                {
+                  <NotifyToast
+                    uniqueId={item.uniqueId}
+                    text={item.text}
+                    level={item.level}
+                    onClose={removeToast}
+                  />
+                }
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
