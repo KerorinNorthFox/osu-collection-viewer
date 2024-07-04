@@ -11,9 +11,9 @@ interface NotifyToastListProps {
 const NotifyToastList = (props: NotifyToastListProps) => {
   const { notifyToastList, setNotifyToastList } = props;
 
-  const removeToast = (id: string) => {
+  function removeToast(id: string) {
     setNotifyToastList((prev) => prev.filter((toast) => toast.uniqueId !== id));
-  };
+  }
 
   return (
     <div className="absolute right-0 bottom-0">

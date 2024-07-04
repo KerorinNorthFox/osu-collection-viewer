@@ -19,7 +19,7 @@ interface NotifyToastProps extends NotifyToastContent {
 const NotifyToast = (props: NotifyToastProps) => {
   const { text, level, uniqueId, onClose } = props;
 
-  const levelSvg = (level: NotifyToastLevel) => {
+  function levelSvg(level: NotifyToastLevel) {
     switch (level) {
       case NotifyToastLevel.Loading:
         return (
@@ -66,7 +66,7 @@ const NotifyToast = (props: NotifyToastProps) => {
           </div>
         );
     }
-  };
+  }
 
   return (
     <div
