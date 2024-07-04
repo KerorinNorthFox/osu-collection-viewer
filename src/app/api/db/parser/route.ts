@@ -17,14 +17,12 @@ interface ResponseType {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const data: RequestType = await req.json();
-    console.log("data:", data);
     const osuDBBuffer = new Uint8Array(data.data).buffer;
-    console.log("osuDBBuffer:", osuDBBuffer);
 
     if (data.dbType == "collection") {
       const parser = new OsuDBParser(null, osuDBBuffer);
       const osuCollectionData: OsuCollectionDB = parser.getCollectionData();
-      logger.info("collection.dbの読み込みに成功");
+      logger.api("collection.dbの読み込みに成功", "POST");
       return NextResponse.json({
         success: true,
         data: osuCollectionData,
@@ -32,14 +30,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     } else if (data.dbType == "osu") {
       const parser = new OsuDBParser(osuDBBuffer);
       const osuData: OsuDB = parser.getOsuDBData();
-      logger.info("osu!.dbの読み込みに成功");
+      logger.api("osu!.dbの読み込みに成功", "POST");
       return NextResponse.json({
         success: true,
         data: osuData,
       });
     } else throw new Error();
   } catch (e) {
-    logger.error(`dbの読み込みに失敗 : ${e}`);
+    logger.apiError(`dbの読み込みに失敗 : ${e}`, "POST");
     return NextResponse.json({
       success: false,
       data: null,

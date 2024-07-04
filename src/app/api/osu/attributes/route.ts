@@ -45,7 +45,10 @@ export async function POST(
     logger.info(`${beatmapId} の譜面情報の取得に成功しました : ${attributes}`);
     return Response.json({ success: true, attributes: attributes });
   } catch (e) {
-    logger.error(`${beatmapId} の譜面情報の取得に失敗しました : ${e}`);
+    logger.apiError(
+      `${beatmapId} の譜面情報の取得に失敗しました : ${e}`,
+      "POST",
+    );
     return Response.json({ success: false, attributes: null });
   }
 }

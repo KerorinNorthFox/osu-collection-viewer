@@ -6,6 +6,7 @@ import TimeLine from "@/components/timeline/TimeLine";
 import TimeLineContent from "@/components/timeline/TimeLineContent";
 import { NotifyToastContent } from "@/components/toast/NotifyToast";
 import NotifyToastList from "@/components/toast/NotifyToastList";
+import { logger } from "@/lib/logger/logger";
 
 const HomeScreen = () => {
   const [osuDB, setOsuDB] = useState<OsuDB | null>(null);
@@ -22,6 +23,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (osuDB !== null && osuCollectionDB !== null) {
+      logger.log("DB両方の読み込み完了");
       setIsLoadDBCompleted(true);
       return;
     }

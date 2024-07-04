@@ -54,13 +54,12 @@ const UploadFile = (props: UploadFileProps) => {
         },
       ]);
 
-      console.log(`The file ${file.name} is correct;`);
+      logger.log(`The file ${file.name} is correct;`);
 
       try {
         // バイナリを読み込める形に変換
         const arrBuf = await readFileAsArrayBuffer(file);
         const arrBufJson = arrayBufferToJson(arrBuf);
-        console.log(arrBufJson);
 
         const res = await fetch(`/api/db/parser`, {
           method: "POST",
@@ -86,7 +85,7 @@ const UploadFile = (props: UploadFileProps) => {
           alert("Failed to load the DB.");
           return;
         }
-        logger.info(`DB loading completed successfully.\n${data.data}`);
+        logger.info(`${file.name} DB loading completed successfully.`);
 
         if (file.name.match("osu!.db")) {
           setOsuDB(data.data);

@@ -23,12 +23,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
     const token = await auth.clientCredentialsGrant();
 
-    logger.info("トークンの取得に成功");
+    logger.api("トークンの取得に成功", "POST");
     return NextResponse.json({
       token: token,
     });
   } catch (e) {
-    logger.error(`トークンの取得に失敗 : ${e}`);
+    logger.apiError(`トークンの取得に失敗 : ${e}`, "POST");
     return NextResponse.json({
       token: null,
     });

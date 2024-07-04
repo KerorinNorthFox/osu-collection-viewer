@@ -38,10 +38,16 @@ export async function POST(
         throw new Error("Invalid game mode." + data.mode);
         break;
     }
-    logger.info(`${beatmapId} のスコア情報の取得に成功しました : ${score}`);
+    logger.api(
+      `${beatmapId} のスコア情報の取得に成功しました : ${score}`,
+      "POST",
+    );
     return Response.json({ success: true, score: score });
   } catch (e) {
-    console.log(`${beatmapId} のスコア情報の取得に失敗しました : ${e}`);
+    logger.apiError(
+      `${beatmapId} のスコア情報の取得に失敗しました : ${e}`,
+      "POST",
+    );
     return Response.json({ success: false, score: null });
   }
 }
