@@ -2,8 +2,10 @@
 import UploadFile from "@/components/UploadFile";
 import { OsuCollectionDB, OsuDB } from "@/lib/types/external";
 import { useEffect, useState } from "react";
-import TimeLine from "../timeline/TimeLine";
-import TimeLineContent from "../timeline/TimeLineContent";
+import TimeLine from "@/components/timeline/TimeLine";
+import TimeLineContent from "@/components/timeline/TimeLineContent";
+import { NotifyToastContent } from "@/components/toast/NotifyToast";
+import NotifyToastList from "@/components/toast/NotifyToastList";
 
 const HomeScreen = () => {
   const [osuDB, setOsuDB] = useState<OsuDB | null>(null);
@@ -14,6 +16,10 @@ const HomeScreen = () => {
     useState(false);
   const [selectedCollectionIndex, setSelectedCollectionIndex] = useState(-1);
 
+  const [notifyToastList, setNotifyToastList] = useState<
+    Array<NotifyToastContent>
+  >([]);
+
   useEffect(() => {
     if (osuDB !== null && osuCollectionDB !== null) {
       setIsLoadDBCompleted(true);
@@ -23,25 +29,33 @@ const HomeScreen = () => {
   }, [osuDB, osuCollectionDB]);
 
   return (
-    <div>
-      <TimeLine>
-        <TimeLineContent
-          title="Load DB files"
-          isAchieve={isLoadDBCompleted}>
-          <UploadFile
-            osuDB={osuDB}
-            osuCollectionDB={osuCollectionDB}
-            setOsuDB={setOsuDB}
-            setOsuCollectionDB={setOsuCollectionDB}
-          />
-        </TimeLineContent>
-        <TimeLineContent
-          title="Select collection"
-          isAchieve={false}>
-          <div></div>
-        </TimeLineContent>
-      </TimeLine>
-    </div>
+    <>
+      <div>
+        <TimeLine>
+          <TimeLineContent
+            title="Load DB files"
+            isAchieve={isLoadDBCompleted}>
+            <UploadFile
+              osuDB={osuDB}
+              setOsuDB={setOsuDB}
+              osuCollectionDB={osuCollectionDB}
+              setOsuCollectionDB={setOsuCollectionDB}
+              notifyToastList={notifyToastList}
+              setNotifyToastList={setNotifyToastList}
+            />
+          </TimeLineContent>
+          <TimeLineContent
+            title="Select collection"
+            isAchieve={false}>
+            <div></div>
+          </TimeLineContent>
+        </TimeLine>
+      </div>
+      <NotifyToastList
+        notifyToastList={notifyToastList}
+        setNotifyToastList={setNotifyToastList}
+      />
+    </>
   );
 };
 

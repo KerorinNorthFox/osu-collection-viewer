@@ -4,29 +4,34 @@ import { logger } from "@/lib/logger/logger";
 import { OsuCollectionDB, OsuDB } from "@/lib/types/external";
 import { FileInput, Label } from "flowbite-react";
 import { useState } from "react";
-import NotifyToast, { NotifyToastLevel } from "./NotifyToast";
+import {
+  NotifyToastContent,
+  NotifyToastLevel,
+} from "@/components/toast/NotifyToast";
 
 interface UploadFileProps {
   osuDB: OsuDB | null;
-  osuCollectionDB: OsuCollectionDB | null;
   setOsuDB: React.Dispatch<React.SetStateAction<OsuDB | null>>;
+  osuCollectionDB: OsuCollectionDB | null;
   setOsuCollectionDB: React.Dispatch<
     React.SetStateAction<OsuCollectionDB | null>
   >;
-}
-
-interface NotifyToastContent {
-  uniqueId: string;
-  text: string;
-  level: NotifyToastLevel;
+  notifyToastList: NotifyToastContent[];
+  setNotifyToastList: React.Dispatch<
+    React.SetStateAction<NotifyToastContent[]>
+  >;
 }
 
 const UploadFile = (props: UploadFileProps) => {
-  const { osuDB, osuCollectionDB, setOsuDB, setOsuCollectionDB } = props;
+  const {
+    osuDB,
+    setOsuDB,
+    osuCollectionDB,
+    setOsuCollectionDB,
+    notifyToastList,
+    setNotifyToastList,
+  } = props;
   const [isDropzoneDisabled, setIsDropzoneDisabled] = useState(false);
-  const [notifyToastList, setNotifyToastList] = useState<
-    Array<NotifyToastContent>
-  >([]);
 
   async function onDrop(files: FileList | null) {
     if (files == null) return;
@@ -104,10 +109,6 @@ const UploadFile = (props: UploadFileProps) => {
     }
   }
 
-  const removeToast = (id: string) => {
-    setNotifyToastList((prev) => prev.filter((toast) => toast.uniqueId !== id));
-  };
-
   return (
     <div>
       <div className="flex w-full items-center justify-center">
@@ -156,24 +157,6 @@ const UploadFile = (props: UploadFileProps) => {
           collection.db
         </span>
       </p>
-      <div className="absolute right-0 bottom-0">
-        <ul className="p-4 space-y-4">
-          {notifyToastList.map((item) => {
-            return (
-              <li key={item.uniqueId}>
-                {
-                  <NotifyToast
-                    uniqueId={item.uniqueId}
-                    text={item.text}
-                    level={item.level}
-                    onClose={removeToast}
-                  />
-                }
-              </li>
-            );
-          })}
-        </ul>
-      </div>
     </div>
   );
 };
