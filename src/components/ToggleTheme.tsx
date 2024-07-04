@@ -8,7 +8,7 @@ const ToggleTheme = () => {
 
   useEffect(() => {
     setTheme(isDark ? "dark" : "light");
-  }, [isDark]);
+  }, [isDark, setTheme]);
 
   return (
     <button
