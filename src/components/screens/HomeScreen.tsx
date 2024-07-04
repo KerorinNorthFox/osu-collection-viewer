@@ -44,9 +44,7 @@ const HomeScreen = () => {
               setNotifyToastList={setNotifyToastList}
             />
           </TimeLineContent>
-          <TimeLineContent
-            title="Select collection"
-            isAchieve={false}>
+          <TimeLineContent title="Select collection">
             <div></div>
           </TimeLineContent>
         </TimeLine>

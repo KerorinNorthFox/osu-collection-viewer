@@ -1,12 +1,12 @@
 "use client";
 interface TimeLineContentProps {
   title: string;
-  isAchieve: boolean;
+  isAchieve?: boolean;
   children: React.ReactNode;
 }
 
 const TimeLineContent = (props: TimeLineContentProps) => {
-  const { title, isAchieve, children } = props;
+  const { title, isAchieve = false, children } = props;
 
   return (
     <li>
