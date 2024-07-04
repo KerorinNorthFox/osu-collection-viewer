@@ -14,6 +14,8 @@ const HomeScreen = () => {
   return (
     <div>
       <UploadFile
+        osuDB={osuDB}
+        osuCollectionDB={osuCollectionDB}
         setOsuDB={setOsuDB}
         setOsuCollectionDB={setOsuCollectionDB}
       />

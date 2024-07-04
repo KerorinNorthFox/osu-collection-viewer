@@ -3,10 +3,12 @@ import { arrayBufferToJson, readFileAsArrayBuffer } from "@/lib/buffer/convert";
 import { logger } from "@/lib/logger/logger";
 import { OsuCollectionDB, OsuDB } from "@/lib/types/external";
 import { FileInput, Label } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NotifyToast, { NotifyToastLevel } from "./NotifyToast";
 
 interface UploadFileProps {
+  osuDB: OsuDB | null;
+  osuCollectionDB: OsuCollectionDB | null;
   setOsuDB: React.Dispatch<React.SetStateAction<OsuDB | null>>;
   setOsuCollectionDB: React.Dispatch<
     React.SetStateAction<OsuCollectionDB | null>
@@ -20,7 +22,7 @@ interface NotifyToastContent {
 }
 
 const UploadFile = (props: UploadFileProps) => {
-  const { setOsuDB, setOsuCollectionDB } = props;
+  const { osuDB, osuCollectionDB, setOsuDB, setOsuCollectionDB } = props;
   const [isDropzoneDisabled, setIsDropzoneDisabled] = useState(false);
   const [notifyToastList, setNotifyToastList] = useState<
     Array<NotifyToastContent>
@@ -145,6 +147,15 @@ const UploadFile = (props: UploadFileProps) => {
           />
         </Label>
       </div>
+      <p className="m-2 text-end text-sm">
+        <span className={osuDB ? "text-green-500" : "text-red-500"}>
+          osu!.db
+        </span>{" "}
+        /{" "}
+        <span className={osuCollectionDB ? "text-green-500" : "text-red-500"}>
+          collection.db
+        </span>
+      </p>
       <div className="absolute right-0 bottom-0">
         <ul className="p-4 space-y-4">
           {notifyToastList.map((item) => {
