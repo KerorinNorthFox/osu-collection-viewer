@@ -1,3 +1,4 @@
+import { logger } from "@/lib/logger/logger";
 import { GameMode } from "@/lib/types/external";
 import { BeatmapUserScore, Client } from "osu-web.js";
 
@@ -37,10 +38,10 @@ export async function POST(
         throw new Error("Invalid game mode." + data.mode);
         break;
     }
-    console.log(beatmapId, " のスコア情報の取得に成功しました:", score);
+    logger.info(`${beatmapId} のスコア情報の取得に成功しました : ${score}`);
     return Response.json({ success: true, score: score });
   } catch (e) {
-    console.log(beatmapId, " のスコア情報の取得に失敗しました:", e);
+    console.log(`${beatmapId} のスコア情報の取得に失敗しました : ${e}`);
     return Response.json({ success: false, score: null });
   }
 }

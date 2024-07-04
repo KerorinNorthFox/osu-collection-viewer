@@ -1,7 +1,5 @@
 import { logger } from "./logger/logger";
 
-async function getUserCombo() {}
-
 // osu!apiのトークンを発行する
 export async function getToken(
   osuClientId: number,
@@ -28,10 +26,14 @@ export async function getToken(
       },
     );
     const data = await res.json();
-    logger.info(`osu!apiのTokenの取得に成功: ${data.token.access_token}`);
+    logger.info(
+      `osu!apiのTokenの取得に成功: ...${data.token.access_token.slice(-20)}`,
+    );
     return data.token;
   } catch (e) {
-    logger.error("osu!apiのTokenの取得に失敗");
+    logger.error(`osu!apiのTokenの取得に失敗 : ${e}`);
     throw e;
   }
 }
+
+async function getUserCombo() {}

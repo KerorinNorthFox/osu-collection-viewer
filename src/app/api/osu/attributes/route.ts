@@ -1,3 +1,4 @@
+import { logger } from "@/lib/logger/logger";
 import { GameMode } from "@/lib/types/external";
 import {
   Client,
@@ -41,10 +42,10 @@ export async function POST(
         throw new Error("Invalid game mode." + data.mode);
         break;
     }
-    console.log(beatmapId, " の譜面情報の取得に成功しました: ", attributes);
+    logger.info(`${beatmapId} の譜面情報の取得に成功しました : ${attributes}`);
     return Response.json({ success: true, attributes: attributes });
   } catch (e) {
-    console.error(beatmapId, " の譜面情報の取得に失敗しました :", e);
+    logger.error(`${beatmapId} の譜面情報の取得に失敗しました : ${e}`);
     return Response.json({ success: false, attributes: null });
   }
 }

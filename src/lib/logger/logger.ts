@@ -6,7 +6,7 @@ export enum LogLevel {
 export class logger {
   static log(message: string, level: string = "LOG", color = "") {
     const timestamp = new Date().toISOString();
-    console.log(`\n${color}[${level}]:${message}\x1b[0m -> ${timestamp}\n`);
+    console.log(`${color}[${level}]:${message}\x1b[0m -> ${timestamp}`);
   }
 
   static info(message: string) {
