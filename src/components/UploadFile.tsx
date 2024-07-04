@@ -3,7 +3,7 @@ import { arrayBufferToJson, readFileAsArrayBuffer } from "@/lib/buffer/convert";
 import { logger } from "@/lib/logger/logger";
 import { OsuCollectionDB, OsuDB } from "@/lib/types/external";
 import { FileInput, Label } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NotifyToast, { NotifyToastLevel } from "./NotifyToast";
 
 interface UploadFileProps {
@@ -109,7 +109,7 @@ const UploadFile = (props: UploadFileProps) => {
   };
 
   return (
-    <div className="m-4">
+    <div>
       <div className="flex w-full items-center justify-center">
         <Label
           htmlFor="dropzone-file"
@@ -148,11 +148,11 @@ const UploadFile = (props: UploadFileProps) => {
         </Label>
       </div>
       <p className="m-2 text-end text-sm">
-        <span className={osuDB ? "text-green-500" : "text-red-500"}>
+        <span className={osuDB ? "text-green-400" : "text-red-400"}>
           osu!.db
         </span>{" "}
         /{" "}
-        <span className={osuCollectionDB ? "text-green-500" : "text-red-500"}>
+        <span className={osuCollectionDB ? "text-green-400" : "text-red-400"}>
           collection.db
         </span>
       </p>
