@@ -1,3 +1,4 @@
+import { logger } from "@/lib/logger/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { Auth } from "osu-web.js";
 
@@ -14,14 +15,22 @@ interface ResponseType {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data: RequestType = await req.json();
 
-  const auth = new Auth(
-    data.osuClientId,
-    data.osuClientSecret,
-    data.osuRedirectUrl,
-  );
-  const token = await auth.clientCredentialsGrant();
+  try {
+    const auth = new Auth(
+      data.osuClientId,
+      data.osuClientSecret,
+      data.osuRedirectUrl,
+    );
+    const token = await auth.clientCredentialsGrant();
 
-  return NextResponse.json({
-    token: token,
-  });
+    logger.info("トークンの取得に成功");
+    return NextResponse.json({
+      token: token,
+    });
+  } catch (e) {
+    logger.error(`トークンの取得に失敗 : ${e}`);
+    return NextResponse.json({
+      token: null,
+    });
+  }
 }
