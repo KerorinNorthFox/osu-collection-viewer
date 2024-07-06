@@ -3,6 +3,7 @@ import { OsuCollectionDB } from "@/lib/types/external";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 interface SelectCollectionDropdownProps {
+  isDBLoadCompleted: boolean;
   osuCollectionDB: OsuCollectionDB | null;
   selectedCollectionIndex: number;
   setSelectedCollectionIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -10,6 +11,7 @@ interface SelectCollectionDropdownProps {
 
 const SelectCollectionDropdown = (props: SelectCollectionDropdownProps) => {
   const {
+    isDBLoadCompleted,
     osuCollectionDB,
     selectedCollectionIndex,
     setSelectedCollectionIndex,
@@ -19,7 +21,7 @@ const SelectCollectionDropdown = (props: SelectCollectionDropdownProps) => {
     <div className="h-14 flex border rounded-lg items-center">
       <div className="">
         <Menu>
-          <MenuButton>
+          <MenuButton disabled={!isDBLoadCompleted}>
             <div className="p-4 flex items-center">
               <span>Select</span>
               <svg

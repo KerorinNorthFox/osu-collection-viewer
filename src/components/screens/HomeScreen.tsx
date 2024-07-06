@@ -14,10 +14,9 @@ const HomeScreen = () => {
   const [osuCollectionDB, setOsuCollectionDB] =
     useState<OsuCollectionDB | null>(null);
   const [isLoadDBCompleted, setIsLoadDBCompleted] = useState(false);
-  const [isOpenSelectCollectionModal, setIsOpenSelectCollectionModal] =
-    useState(false);
+  // 選択されたコレクションのindex
   const [selectedCollectionIndex, setSelectedCollectionIndex] = useState(-1);
-
+  // 右下の通知のリスト
   const [notifyToastList, setNotifyToastList] = useState<
     Array<NotifyToastContent>
   >([]);
@@ -47,8 +46,11 @@ const HomeScreen = () => {
               setNotifyToastList={setNotifyToastList}
             />
           </TimeLineContent>
-          <TimeLineContent title="Select collection">
+          <TimeLineContent
+            title="Select collection"
+            isAchieve={selectedCollectionIndex == -1 ? false : true}>
             <SelectCollectionDropdown
+              isDBLoadCompleted={isLoadDBCompleted}
               osuCollectionDB={osuCollectionDB}
               selectedCollectionIndex={selectedCollectionIndex}
               setSelectedCollectionIndex={setSelectedCollectionIndex}
