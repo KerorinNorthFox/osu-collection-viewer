@@ -1,9 +1,8 @@
 "use client";
 import { OsuCollectionDB } from "@/lib/types/external";
-import { Dropdown, DropdownItem } from "flowbite-react";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 interface SelectCollectionDropdownProps {
-  isLoadDBCompleted: boolean;
   osuCollectionDB: OsuCollectionDB | null;
   selectedCollectionIndex: number;
   setSelectedCollectionIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -11,7 +10,6 @@ interface SelectCollectionDropdownProps {
 
 const SelectCollectionDropdown = (props: SelectCollectionDropdownProps) => {
   const {
-    isLoadDBCompleted,
     osuCollectionDB,
     selectedCollectionIndex,
     setSelectedCollectionIndex,
@@ -20,94 +18,51 @@ const SelectCollectionDropdown = (props: SelectCollectionDropdownProps) => {
   return (
     <div className="h-14 flex border rounded-lg items-center">
       <div className="">
-        <button
-          type="button"
-          id="menu-button"
-          aria-expanded="true"
-          aria-haspopup="true">
-          <div className="p-4 flex items-center">
-            <span>Select</span>
-            <svg
-              className="w-2.5 h-2.5 ms-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 6 10">
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m1 9 4-4-4-4"
-              />
-            </svg>
-          </div>
-        </button>
-        {/* <Dropdown
-          label="Select"
-          placement="right"
-          inline>
-          {osuCollectionDB?.collection.map((item, i) => {
-            return (
-              <DropdownItem onClick={() => setSelectedCollectionIndex(i)}>
-                {item.name}
-              </DropdownItem>
-            );
-          })}
-        </Dropdown> */}
+        <Menu>
+          <MenuButton>
+            <div className="p-4 flex items-center">
+              <span>Select</span>
+              <svg
+                className="w-2.5 h-2.5 ms-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10">
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 9 4-4-4-4"
+                />
+              </svg>
+            </div>
+          </MenuButton>
+          <MenuItems
+            transition
+            anchor="bottom start"
+            className="w-52 origin-top-right rounded-lg border p-1 text-sm/6 bg-gray-700 bg-opacity-50 border-gray-600 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0">
+            {osuCollectionDB?.collection.map((item, i) => {
+              return (
+                <MenuItem>
+                  <button
+                    className="group flex w-full items-center py-1 px-2 hover:bg-hover"
+                    onClick={() => setSelectedCollectionIndex(i)}>
+                    {item.name}
+                  </button>
+                </MenuItem>
+              );
+            })}
+          </MenuItems>
+        </Menu>
       </div>
-      {/* <hr className="w-[1px] h-full bg-gray-200 border-0" />
+      <hr className="w-[1px] h-full bg-gray-200 border-0" />
       <div className="p-4">
-        <p>{selectedCollectionIndex}</p>
-        <p>{osuCollectionDB?.collection[selectedCollectionIndex].name}</p>
-      </div> */}
-      <div
-        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="menu-button"
-        tabIndex={-1}>
-        <div
-          className="py-1"
-          role="none">
-          <a
-            href="#"
-            className="block px-4 py-2 text-sm text-gray-700"
-            role="menuitem"
-            tabIndex={-1}
-            id="menu-item-0">
-            Account settings
-          </a>
-          <a
-            href="#"
-            className="block px-4 py-2 text-sm text-gray-700"
-            role="menuitem"
-            tabIndex={-1}
-            id="menu-item-1">
-            Support
-          </a>
-          <a
-            href="#"
-            className="block px-4 py-2 text-sm text-gray-700"
-            role="menuitem"
-            tabIndex={-1}
-            id="menu-item-2">
-            License
-          </a>
-          <form
-            method="POST"
-            action="#"
-            role="none">
-            <button
-              type="submit"
-              className="block w-full px-4 py-2 text-left text-sm text-gray-700"
-              role="menuitem"
-              tabIndex={-1}
-              id="menu-item-3">
-              Sign out
-            </button>
-          </form>
-        </div>
+        {selectedCollectionIndex != -1 ? (
+          <p>{osuCollectionDB?.collection[selectedCollectionIndex].name}</p>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

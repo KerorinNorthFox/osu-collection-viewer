@@ -49,7 +49,6 @@ const HomeScreen = () => {
           </TimeLineContent>
           <TimeLineContent title="Select collection">
             <SelectCollectionDropdown
-              isLoadDBCompleted={isLoadDBCompleted}
               osuCollectionDB={osuCollectionDB}
               selectedCollectionIndex={selectedCollectionIndex}
               setSelectedCollectionIndex={setSelectedCollectionIndex}
