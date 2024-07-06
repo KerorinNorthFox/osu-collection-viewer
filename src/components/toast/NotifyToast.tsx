@@ -71,7 +71,7 @@ const NotifyToast = (props: NotifyToastProps) => {
   return (
     <div
       id={uniqueId}
-      className="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+      className="flex items-center w-full p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
       role="alert">
       {levelSvg(level)}
       <div className="ms-3 text-sm font-normal">{text}</div>

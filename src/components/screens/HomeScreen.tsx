@@ -7,6 +7,8 @@ import TimeLineContent from "@/components/timeline/TimeLineContent";
 import { NotifyToastContent } from "@/components/toast/NotifyToast";
 import NotifyToastList from "@/components/toast/NotifyToastList";
 import { logger } from "@/lib/logger/logger";
+import SelectCollectionDropdown from "../SelectCollectionDropdown";
+import SelectCollection from "../SelectCollection";
 
 const HomeScreen = () => {
   const [osuDB, setOsuDB] = useState<OsuDB | null>(null);
@@ -47,7 +49,12 @@ const HomeScreen = () => {
             />
           </TimeLineContent>
           <TimeLineContent title="Select collection">
-            <div></div>
+            <SelectCollectionDropdown
+              isLoadDBCompleted={isLoadDBCompleted}
+              osuCollectionDB={osuCollectionDB}
+              selectedCollectionIndex={selectedCollectionIndex}
+              setSelectedCollectionIndex={setSelectedCollectionIndex}
+            />
           </TimeLineContent>
         </TimeLine>
       </div>

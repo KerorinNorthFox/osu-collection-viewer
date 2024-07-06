@@ -16,8 +16,8 @@ const NotifyToastList = (props: NotifyToastListProps) => {
   }
 
   return (
-    <div className="absolute right-0 bottom-0">
-      <ul className="p-4 space-y-4">
+    <div className="max-w-xs absolute right-4 bottom-4">
+      <ul className="space-y-4">
         {notifyToastList.map((item) => {
           return (
             <li key={item.uniqueId}>

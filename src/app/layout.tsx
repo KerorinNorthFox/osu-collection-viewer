@@ -25,7 +25,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange>
           <Header />
-          <main className="flex justify-center h-screen pt-header bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text">
+          <main className="flex justify-center min-h-screen pt-header bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text">
             <div className="w-full lg:w-[70%] lg:mx-auto">{children}</div>
           </main>
         </ThemeProvider>
