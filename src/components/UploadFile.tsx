@@ -43,6 +43,14 @@ const UploadFile = (props: UploadFileProps) => {
         alert(
           `The file is incorrect: ${file.name}\nPlease select osu!.db and collection.db.`,
         );
+        setNotifyToastList([
+          ...notifyToastList,
+          {
+            uniqueId: `toast-${file.name}-${Math.random()}`,
+            text: `The file is incorrect: ${file.name}\nPlease select osu!.db and collection.db.`,
+            level: NotifyToastLevel.Fail,
+          },
+        ]);
         return;
       }
       setNotifyToastList([
@@ -76,6 +84,14 @@ const UploadFile = (props: UploadFileProps) => {
 
         if (!res.ok) {
           alert(`${res.statusText}\nFailed to upload the DB file.`);
+          setNotifyToastList([
+            ...notifyToastList,
+            {
+              uniqueId: `toast-${file.name}-${Math.random()}`,
+              text: `${res.statusText}\nFailed to upload the DB file.`,
+              level: NotifyToastLevel.Fail,
+            },
+          ]);
           return;
         }
 
@@ -83,6 +99,14 @@ const UploadFile = (props: UploadFileProps) => {
 
         if (!data.success) {
           alert("Failed to load the DB.");
+          setNotifyToastList([
+            ...notifyToastList,
+            {
+              uniqueId: `toast-${file.name}-${Math.random()}`,
+              text: "Failed to load the DB.",
+              level: NotifyToastLevel.Fail,
+            },
+          ]);
           return;
         }
         logger.info(`${file.name} DB loading completed successfully.`);
@@ -103,6 +127,14 @@ const UploadFile = (props: UploadFileProps) => {
         ]);
       } catch (e) {
         alert(e);
+        setNotifyToastList([
+          ...notifyToastList,
+          {
+            uniqueId: `toast-${file.name}-${Math.random()}`,
+            text: `${e}`,
+            level: NotifyToastLevel.Success,
+          },
+        ]);
         return;
       }
     }

@@ -43,14 +43,16 @@ const SelectCollectionDropdown = (props: SelectCollectionDropdownProps) => {
           <MenuItems
             transition
             anchor="bottom start"
-            className="w-52 origin-top-right rounded-lg border p-1 text-sm/6 bg-gray-700 bg-opacity-50 border-gray-600 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0">
+            className="w-64 h-64 p-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 bg-opacity-50 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0">
             {osuCollectionDB?.collection.map((item, i) => {
               return (
                 <MenuItem>
                   <button
                     className="group flex w-full items-center py-1 px-2 hover:bg-hover"
                     onClick={() => setSelectedCollectionIndex(i)}>
-                    {item.name}
+                    <span className="text-sm text-light-text dark:text-dark-text">
+                      {item.name}
+                    </span>
                   </button>
                 </MenuItem>
               );
