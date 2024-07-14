@@ -8,6 +8,7 @@ import { NotifyToastContent } from "@/components/toast/NotifyToast";
 import NotifyToastList from "@/components/toast/NotifyToastList";
 import { logger } from "@/lib/logger/logger";
 import SelectCollectionDropdown from "../SelectCollectionDropdown";
+import { Button } from "@headlessui/react";
 
 const HomeScreen = () => {
   const [osuDB, setOsuDB] = useState<OsuDB | null>(null);
@@ -37,24 +38,48 @@ const HomeScreen = () => {
           <TimeLineContent
             title="Load DB files"
             isAchieve={isLoadDBCompleted}>
-            <UploadFile
-              osuDB={osuDB}
-              setOsuDB={setOsuDB}
-              osuCollectionDB={osuCollectionDB}
-              setOsuCollectionDB={setOsuCollectionDB}
-              notifyToastList={notifyToastList}
-              setNotifyToastList={setNotifyToastList}
-            />
+            <div>
+              <UploadFile
+                setOsuDB={setOsuDB}
+                setOsuCollectionDB={setOsuCollectionDB}
+                notifyToastList={notifyToastList}
+                setNotifyToastList={setNotifyToastList}
+              />
+              <p className="m-1 text-end text-sm">
+                <span className={osuDB ? "text-green-400" : "text-red-400"}>
+                  osu!.db
+                </span>{" "}
+                /{" "}
+                <span
+                  className={
+                    osuCollectionDB ? "text-green-400" : "text-red-400"
+                  }>
+                  collection.db
+                </span>
+              </p>
+            </div>
           </TimeLineContent>
           <TimeLineContent
             title="Select collection"
             isAchieve={selectedCollectionIndex == -1 ? false : true}>
-            <SelectCollectionDropdown
-              isDBLoadCompleted={isLoadDBCompleted}
-              osuCollectionDB={osuCollectionDB}
-              selectedCollectionIndex={selectedCollectionIndex}
-              setSelectedCollectionIndex={setSelectedCollectionIndex}
-            />
+            <div>
+              <SelectCollectionDropdown
+                isDBLoadCompleted={isLoadDBCompleted}
+                osuCollectionDB={osuCollectionDB}
+                selectedCollectionIndex={selectedCollectionIndex}
+                setSelectedCollectionIndex={setSelectedCollectionIndex}
+              />
+              <div className="m-4 text-center">
+                <Button
+                  className="px-12 py-3 font-bold bg-green-400 text-dark-text rounded-full"
+                  onClick={() => {}}>
+                  Apply
+                </Button>
+              </div>
+            </div>
+          </TimeLineContent>
+          <TimeLineContent title="The display completed">
+            <div></div>
           </TimeLineContent>
         </TimeLine>
       </div>

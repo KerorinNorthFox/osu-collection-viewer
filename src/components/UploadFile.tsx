@@ -10,9 +10,7 @@ import {
 } from "@/components/toast/NotifyToast";
 
 interface UploadFileProps {
-  osuDB: OsuDB | null;
   setOsuDB: React.Dispatch<React.SetStateAction<OsuDB | null>>;
-  osuCollectionDB: OsuCollectionDB | null;
   setOsuCollectionDB: React.Dispatch<
     React.SetStateAction<OsuCollectionDB | null>
   >;
@@ -23,14 +21,8 @@ interface UploadFileProps {
 }
 
 const UploadFile = (props: UploadFileProps) => {
-  const {
-    osuDB,
-    setOsuDB,
-    osuCollectionDB,
-    setOsuCollectionDB,
-    notifyToastList,
-    setNotifyToastList,
-  } = props;
+  const { setOsuDB, setOsuCollectionDB, notifyToastList, setNotifyToastList } =
+    props;
   const [isDropzoneDisabled, setIsDropzoneDisabled] = useState(false);
 
   async function onDrop(files: FileList | null) {
@@ -141,53 +133,41 @@ const UploadFile = (props: UploadFileProps) => {
   }
 
   return (
-    <div>
-      <div className="flex w-full items-center justify-center">
-        <Label
-          htmlFor="dropzone-file"
-          className="flex h-56 w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 dark:bg-dark-bg dark:hover:bg-hover">
-          <div className="flex flex-col items-center justify-center pb-6 pt-5">
-            <svg
-              className="mb-4 h-8 w-8"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 16">
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-              />
-            </svg>
-            <p className="mb-2 text-sm">
-              Click or drag and drop to upload{" "}
-              <span className="font-bold"></span>
-            </p>
-            <p className="text-lg font-semibold">osu!.db and collection.db</p>
-          </div>
-          <FileInput
-            id="dropzone-file"
-            className="hidden"
-            disabled={isDropzoneDisabled}
-            onChange={async (e) => {
-              setIsDropzoneDisabled(true);
-              await onDrop(e.currentTarget.files);
-              setIsDropzoneDisabled(false);
-            }}
-          />
-        </Label>
-      </div>
-      <p className="m-2 text-end text-sm">
-        <span className={osuDB ? "text-green-400" : "text-red-400"}>
-          osu!.db
-        </span>{" "}
-        /{" "}
-        <span className={osuCollectionDB ? "text-green-400" : "text-red-400"}>
-          collection.db
-        </span>
-      </p>
+    <div className="flex w-full items-center justify-center">
+      <Label
+        htmlFor="dropzone-file"
+        className="flex h-56 w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 dark:bg-dark-bg dark:hover:bg-hover">
+        <div className="flex flex-col items-center justify-center pb-6 pt-5">
+          <svg
+            className="mb-4 h-8 w-8"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 16">
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+            />
+          </svg>
+          <p className="mb-2 text-sm">
+            Click or drag and drop to upload <span className="font-bold"></span>
+          </p>
+          <p className="text-lg font-semibold">osu!.db and collection.db</p>
+        </div>
+        <FileInput
+          id="dropzone-file"
+          className="hidden"
+          disabled={isDropzoneDisabled}
+          onChange={async (e) => {
+            setIsDropzoneDisabled(true);
+            await onDrop(e.currentTarget.files);
+            setIsDropzoneDisabled(false);
+          }}
+        />
+      </Label>
     </div>
   );
 };
