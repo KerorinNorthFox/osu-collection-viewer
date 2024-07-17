@@ -8,7 +8,7 @@ import { NotifyToastContent } from "@/components/toast/NotifyToast";
 import NotifyToastList from "@/components/toast/NotifyToastList";
 import { logger } from "@/lib/logger/logger";
 import SelectCollectionDropdown from "../SelectCollectionDropdown";
-import { Button } from "@headlessui/react";
+import ApplyButton from "../button/ApplyButton";
 
 const HomeScreen = () => {
   const [osuDB, setOsuDB] = useState<OsuDB | null>(null);
@@ -70,16 +70,14 @@ const HomeScreen = () => {
                 setSelectedCollectionIndex={setSelectedCollectionIndex}
               />
               <div className="m-4 text-center">
-                <Button
-                  className="px-12 py-3 font-bold bg-green-400 text-dark-text rounded-full"
-                  onClick={() => {}}>
-                  Apply
-                </Button>
+                <ApplyButton onClick={() => {}}>Apply</ApplyButton>
               </div>
             </div>
           </TimeLineContent>
           <TimeLineContent title="The display completed">
-            <div></div>
+            <div className="m-12 text-center">
+              <ApplyButton onClick={() => {}}>View collection list</ApplyButton>
+            </div>
           </TimeLineContent>
         </TimeLine>
       </div>

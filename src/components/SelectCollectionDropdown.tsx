@@ -21,8 +21,11 @@ const SelectCollectionDropdown = (props: SelectCollectionDropdownProps) => {
     <div className="h-14 flex border rounded-lg items-center">
       <div className="">
         <Menu>
-          <MenuButton disabled={!isDBLoadCompleted}>
-            <div className="p-4 flex items-center">
+          <MenuButton
+            disabled={!isDBLoadCompleted}
+            className={`rounded-l-lg ${isDBLoadCompleted && "hover:bg-hover"}`}>
+            <div
+              className={`p-4 flex items-center ${!isDBLoadCompleted && "text-gray-400"}`}>
               <span>Select</span>
               <svg
                 className="w-2.5 h-2.5 ms-3"
@@ -43,7 +46,7 @@ const SelectCollectionDropdown = (props: SelectCollectionDropdownProps) => {
           <MenuItems
             transition
             anchor="bottom start"
-            className="w-64 h-64 p-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 bg-opacity-50 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0">
+            className="w-64 h-64 p-1 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0">
             {osuCollectionDB?.collection.map((item, i) => {
               return (
                 <MenuItem>
