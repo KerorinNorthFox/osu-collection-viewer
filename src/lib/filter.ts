@@ -1,13 +1,10 @@
 import { BeatmapRawData, CollectionData } from "./types/external";
 
-interface MatchEachMd5Args {
-  beatmaps: BeatmapRawData[]; // osu!db内の全譜面
-  collection: CollectionData; // 選択したコレクション
-}
-
 // 全譜面とコレクションの譜面のMD5をマッチングさせてコレクション内の譜面のidを得る
-export function matchEachMd5(args: MatchEachMd5Args) {
-  const { beatmaps, collection } = args;
+export function matchEachMd5(
+  beatmaps: BeatmapRawData[],
+  collection: CollectionData,
+) {
   let beatmapsInCollection: BeatmapRawData[] = [];
 
   // md5をキーとしてマッチさせるmapを作成

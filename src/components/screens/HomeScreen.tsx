@@ -7,10 +7,14 @@ import TimeLineContent from "@/components/timeline/TimeLineContent";
 import { NotifyToastContent } from "@/components/toast/NotifyToast";
 import NotifyToastList from "@/components/toast/NotifyToastList";
 import { logger } from "@/lib/logger/logger";
-import SelectCollectionDropdown from "../SelectCollectionDropdown";
+import SelectCollectionDropdown from "@/components/SelectCollectionDropdown";
 import ApplyButton from "../button/ApplyButton";
+import { matchEachMd5 } from "@/lib/filter";
+import { fetchScoreInfo } from "@/lib/fetch";
+import { useOsuToken } from "@/components/store/OsuTokenProvider";
 
 const HomeScreen = () => {
+  const token = useOsuToken();
   const [osuDB, setOsuDB] = useState<OsuDB | null>(null);
   const [osuCollectionDB, setOsuCollectionDB] =
     useState<OsuCollectionDB | null>(null);
@@ -23,13 +27,26 @@ const HomeScreen = () => {
   >([]);
 
   useEffect(() => {
-    if (osuDB !== null && osuCollectionDB !== null) {
-      logger.log("DB両方の読み込み完了");
-      setIsLoadDBCompleted(true);
+    if (osuDB == null || osuCollectionDB == null) {
+      setIsLoadDBCompleted(false);
       return;
     }
-    setIsLoadDBCompleted(false);
+    logger.log("DB両方の読み込み完了");
+    setIsLoadDBCompleted(true);
+    return;
   }, [osuDB, osuCollectionDB]);
+
+  function fetchScoreData() {
+    if (osuDB == null || osuCollectionDB == null) return;
+    if (selectedCollectionIndex == -1) return;
+    const beatmaps = matchEachMd5(
+      osuDB.beatmaps,
+      osuCollectionDB.collection[selectedCollectionIndex],
+    );
+    fetchScoreInfo(beatmaps, token).then((bms) => {
+      // TODO: beatmapData[]をテーブルデータに変換する処理
+    });
+  }
 
   return (
     <>
@@ -70,7 +87,7 @@ const HomeScreen = () => {
                 setSelectedCollectionIndex={setSelectedCollectionIndex}
               />
               <div className="m-4 text-center">
-                <ApplyButton onClick={() => {}}>Apply</ApplyButton>
+                <ApplyButton onClick={fetchScoreData}>Apply</ApplyButton>
               </div>
             </div>
           </TimeLineContent>
