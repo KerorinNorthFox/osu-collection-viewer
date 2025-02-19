@@ -1,28 +1,13 @@
 import HomeScreen from "@/components/screens/HomeScreen";
 import OsuTokenProvider from "@/components/store/OsuTokenProvider";
-import { getToken } from "@/lib/fetch";
+import { issueToken } from "@/lib/fetch/issueToken";
 
 const Home = async () => {
-  const osuClientId = process.env.OSU_CLIENT_ID;
-  const osuClientSecret = process.env.OSU_CLIENT_SECRET;
-  const osuRedirectUrl = process.env.OSU_REDIRECT_URL;
-  if (
-    typeof osuClientId === "undefined" ||
-    typeof osuClientSecret === "undefined" ||
-    typeof osuRedirectUrl === "undefined"
-  ) {
-    throw new Error("Some env is undefined.");
-  }
-
-  let token: { access_token: string };
+  let token: string;
   try {
-    token = await getToken(
-      parseInt(osuClientId),
-      osuClientSecret,
-      osuRedirectUrl,
-    );
-    // トークンが取得できなかった時のエラー画面
+    token = await getToken();
   } catch (e) {
+    // トークンが取得できなかった時のエラー画面
     return (
       <div className="w-full h-full flex justify-center items-center">
         <div className="text-center">
@@ -41,10 +26,31 @@ const Home = async () => {
   }
 
   return (
-    <OsuTokenProvider token={token.access_token}>
+    <OsuTokenProvider token={token}>
       <HomeScreen />
     </OsuTokenProvider>
   );
 };
 
 export default Home;
+
+async function getToken(): Promise<string> {
+  const osuClientId = process.env.OSU_CLIENT_ID;
+  const osuClientSecret = process.env.OSU_CLIENT_SECRET;
+  const osuRedirectUrl = process.env.OSU_REDIRECT_URL;
+
+  if (
+    typeof osuClientId === "undefined" ||
+    typeof osuClientSecret === "undefined" ||
+    typeof osuRedirectUrl === "undefined"
+  ) {
+    throw new Error("Some env is undefined.");
+  }
+
+  let token: { access_token: string } = await issueToken(
+    parseInt(osuClientId),
+    osuClientSecret,
+    osuRedirectUrl,
+  );
+  return token.access_token;
+}
