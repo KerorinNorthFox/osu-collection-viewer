@@ -1,6 +1,6 @@
 "use client";
-import { OsuCollectionDB } from "@/lib/types/external";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { OsuCollectionDB } from "@/lib/types/external";
 
 interface SelectCollectionDropdownProps {
   isDBLoadCompleted: boolean;

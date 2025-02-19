@@ -1,3 +1,7 @@
+export interface FetchData {
+  user_combo: number;
+  max_combo: number;
+}
 // apiから得られる生の譜面データ
 // @params
 // osu_file_name:
@@ -13,13 +17,14 @@ export interface BeatmapRawData {
   md5: number;
   ranked_status: number;
   mode: number;
+  approach_rate: number;
+  circle_size: number;
+  overall_difficulty: number;
+  hp_drain: number;
 }
 
 // テーブルに表示する譜面データ
-export interface BeatmapData extends BeatmapRawData {
-  user_combo: number;
-  max_combo: number;
-}
+export interface BeatmapData extends BeatmapRawData, FetchData {}
 
 // コレクションのデータ
 // @params

@@ -1,13 +1,13 @@
 "use client";
-import { arrayBufferToJson, readFileAsArrayBuffer } from "@/lib/buffer/convert";
-import { logger } from "@/lib/logger/logger";
-import { OsuCollectionDB, OsuDB } from "@/lib/types/external";
-import { FileInput, Label } from "flowbite-react";
 import { useState } from "react";
+import { FileInput, Label } from "flowbite-react";
 import {
   NotifyToastContent,
   NotifyToastLevel,
 } from "@/components/toast/NotifyToast";
+import { arrayBufferToJson, readFileAsArrayBuffer } from "@/lib/buffer/convert";
+import { logger } from "@/lib/logger/logger";
+import { OsuCollectionDB, OsuDB } from "@/lib/types/external";
 
 interface UploadFileProps {
   setOsuDB: React.Dispatch<React.SetStateAction<OsuDB | null>>;
@@ -102,7 +102,8 @@ const UploadFile = (props: UploadFileProps) => {
           return;
         }
         logger.info(`${file.name} DB loading completed successfully.`);
-
+        console.log("db data :");
+        console.log(data.data);
         if (file.name.match("osu!.db")) {
           setOsuDB(data.data);
         } else if (file.name.match("collection.db")) {
@@ -136,8 +137,9 @@ const UploadFile = (props: UploadFileProps) => {
     <div className="flex w-full items-center justify-center">
       <Label
         htmlFor="dropzone-file"
-        className="flex h-56 w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 dark:bg-dark-bg dark:hover:bg-hover">
-        <div className="flex flex-col items-center justify-center pb-6 pt-5">
+        className={`flex h-56 w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-gray-300 bg-gray-50 dark:bg-dark-bg  ${isDropzoneDisabled ? "" : "hover:bg-gray-100 dark:hover:bg-hover"}`}>
+        <div
+          className={`flex flex-col items-center justify-center pb-6 pt-5 ${isDropzoneDisabled ? "text-gray-400 dark:text-gray-600" : ""}`}>
           <svg
             className="mb-4 h-8 w-8"
             aria-hidden="true"

@@ -19,7 +19,7 @@ interface NotifyToastProps extends NotifyToastContent {
 const NotifyToast = (props: NotifyToastProps) => {
   const { text, level, uniqueId, onClose } = props;
 
-  function levelSvg(level: NotifyToastLevel) {
+  function changeSvgForLevel(level: NotifyToastLevel) {
     switch (level) {
       case NotifyToastLevel.Loading:
         return (
@@ -73,7 +73,7 @@ const NotifyToast = (props: NotifyToastProps) => {
       id={uniqueId}
       className="flex items-center w-full p-4 text-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg border border-light-text dark:border-dark-text rounded-lg shadow-md"
       role="alert">
-      {levelSvg(level)}
+      {changeSvgForLevel(level)}
       <div className="ms-3 text-sm font-normal">{text}</div>
       <button
         type="button"

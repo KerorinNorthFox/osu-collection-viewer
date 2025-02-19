@@ -1,13 +1,14 @@
 "use client";
-import { Button } from "@headlessui/react";
 import { useState } from "react";
+import { Button } from "@headlessui/react";
 
 interface ApplyButtonProps {
-  onClick: () => void;
   children: React.ReactNode;
+  onClick: () => void;
 }
 const ApplyButton = (props: ApplyButtonProps) => {
-  const { onClick, children } = props;
+  const { children, onClick } = props;
+
   const [isClick, setIsClick] = useState(false);
 
   return (
