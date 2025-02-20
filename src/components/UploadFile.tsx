@@ -38,7 +38,7 @@ const UploadFile = (props: UploadFileProps) => {
         setNotifyToastList([
           ...notifyToastList,
           {
-            uniqueId: `toast-${file.name}-${Math.random()}`,
+            uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
             text: `The file is incorrect: ${file.name}\nPlease select osu!.db and collection.db.`,
             level: NotifyToastLevel.Fail,
           },
@@ -48,7 +48,7 @@ const UploadFile = (props: UploadFileProps) => {
       setNotifyToastList([
         ...notifyToastList,
         {
-          uniqueId: `toast-${file.name}-${Math.random()}`,
+          uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
           text: `Loading ${file.name}...`,
           level: NotifyToastLevel.Loading,
         },
@@ -79,7 +79,7 @@ const UploadFile = (props: UploadFileProps) => {
           setNotifyToastList([
             ...notifyToastList,
             {
-              uniqueId: `toast-${file.name}-${Math.random()}`,
+              uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
               text: `${res.statusText}\nFailed to upload the DB file.`,
               level: NotifyToastLevel.Fail,
             },
@@ -94,7 +94,7 @@ const UploadFile = (props: UploadFileProps) => {
           setNotifyToastList([
             ...notifyToastList,
             {
-              uniqueId: `toast-${file.name}-${Math.random()}`,
+              uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
               text: "Failed to load the DB.",
               level: NotifyToastLevel.Fail,
             },
@@ -113,7 +113,7 @@ const UploadFile = (props: UploadFileProps) => {
         setNotifyToastList([
           ...notifyToastList,
           {
-            uniqueId: `toast-${file.name}-${Math.random()}`,
+            uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
             text: `Loading ${file.name} completed successfully.`,
             level: NotifyToastLevel.Success,
           },
@@ -123,7 +123,7 @@ const UploadFile = (props: UploadFileProps) => {
         setNotifyToastList([
           ...notifyToastList,
           {
-            uniqueId: `toast-${file.name}-${Math.random()}`,
+            uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
             text: `${e}`,
             level: NotifyToastLevel.Success,
           },
@@ -159,6 +159,7 @@ const UploadFile = (props: UploadFileProps) => {
           </p>
           <p className="text-lg font-semibold">osu!.db and collection.db</p>
         </div>
+
         <FileInput
           id="dropzone-file"
           className="hidden"

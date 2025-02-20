@@ -26,6 +26,7 @@ const HomeScreen = () => {
     Array<NotifyToastContent>
   >([]);
 
+  // osu!.dbとcollection.dbがどちらも読み込まれているか判定
   useEffect(() => {
     if (osuDB == null || osuCollectionDB == null) {
       setIsLoadDBCompleted(false);
@@ -76,6 +77,7 @@ const HomeScreen = () => {
               </p>
             </div>
           </TimeLineContent>
+
           <TimeLineContent
             title="Select collection"
             isAchieve={selectedCollectionIndex == -1 ? false : true}>
@@ -91,6 +93,7 @@ const HomeScreen = () => {
               </div>
             </div>
           </TimeLineContent>
+
           <TimeLineContent title="The display completed">
             <div className="m-12 text-center">
               <ApplyButton onClick={() => {}}>View collection list</ApplyButton>
@@ -98,6 +101,7 @@ const HomeScreen = () => {
           </TimeLineContent>
         </TimeLine>
       </div>
+
       <NotifyToastList
         notifyToastList={notifyToastList}
         setNotifyToastList={setNotifyToastList}
