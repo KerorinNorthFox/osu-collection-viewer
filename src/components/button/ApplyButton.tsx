@@ -13,7 +13,7 @@ const ApplyButton = (props: ApplyButtonProps) => {
 
   return (
     <Button
-      className={`px-12 py-3 bg-transparent hover:bg-pink-400 border border-gray-900 dark:border-white text-light-text dark:text-dark-text hover:text-dark-text rounded-full duration-50 ${
+      className={`px-12 py-3 bg-transparent hover:bg-pink-400 border border-gray-900 dark:border-white text-light-text dark:text-dark-text hover:text-dark-text shadow-md rounded-full duration-50 ${
         isClick && "scale-[.95]"
       }`}
       onMouseDown={() => setIsClick(true)}
