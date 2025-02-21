@@ -1,29 +1,27 @@
 "use client";
 import { useState } from "react";
 import { FileInput, Label } from "flowbite-react";
-import {
-  NotifyToastContent,
-  NotifyToastLevel,
-} from "@/components/toast/NotifyToast";
+import { NotifyToastLevel } from "@/components/toast/NotifyToast";
 import { arrayBufferToJson, readFileAsArrayBuffer } from "@/lib/buffer/convert";
 import { logger } from "@/lib/logger/logger";
 import { OsuCollectionDB, OsuDB } from "@/lib/types/external";
+import {
+  useNotifyToasts,
+  useSetNotifyToasts,
+} from "./store/NotifyToastsProvider";
 
 interface UploadFileProps {
   setOsuDB: React.Dispatch<React.SetStateAction<OsuDB | null>>;
   setOsuCollectionDB: React.Dispatch<
     React.SetStateAction<OsuCollectionDB | null>
   >;
-  notifyToastList: NotifyToastContent[];
-  setNotifyToastList: React.Dispatch<
-    React.SetStateAction<NotifyToastContent[]>
-  >;
 }
 
 const UploadFile = (props: UploadFileProps) => {
-  const { setOsuDB, setOsuCollectionDB, notifyToastList, setNotifyToastList } =
-    props;
+  const { setOsuDB, setOsuCollectionDB } = props;
   const [isDropzoneDisabled, setIsDropzoneDisabled] = useState(false);
+  const notifyToasts = useNotifyToasts();
+  const setNotifyToasts = useSetNotifyToasts();
 
   async function onDrop(files: FileList | null) {
     if (files == null) return;
@@ -35,20 +33,20 @@ const UploadFile = (props: UploadFileProps) => {
         alert(
           `The file is incorrect: ${file.name}\nPlease select osu!.db and collection.db.`,
         );
-        setNotifyToastList([
-          ...notifyToastList,
+        setNotifyToasts([
+          ...notifyToasts,
           {
-            uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
+            uniqueId: `toast-${file.name}-${notifyToasts.length + 1}`,
             text: `The file is incorrect: ${file.name}\nPlease select osu!.db and collection.db.`,
             level: NotifyToastLevel.Fail,
           },
         ]);
         return;
       }
-      setNotifyToastList([
-        ...notifyToastList,
+      setNotifyToasts([
+        ...notifyToasts,
         {
-          uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
+          uniqueId: `toast-${file.name}-${notifyToasts.length + 1}`,
           text: `Loading ${file.name}...`,
           level: NotifyToastLevel.Loading,
         },
@@ -76,10 +74,10 @@ const UploadFile = (props: UploadFileProps) => {
 
         if (!res.ok) {
           alert(`${res.statusText}\nFailed to upload the DB file.`);
-          setNotifyToastList([
-            ...notifyToastList,
+          setNotifyToasts([
+            ...notifyToasts,
             {
-              uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
+              uniqueId: `toast-${file.name}-${notifyToasts.length + 1}`,
               text: `${res.statusText}\nFailed to upload the DB file.`,
               level: NotifyToastLevel.Fail,
             },
@@ -91,10 +89,10 @@ const UploadFile = (props: UploadFileProps) => {
 
         if (!data.success) {
           alert("Failed to load the DB.");
-          setNotifyToastList([
-            ...notifyToastList,
+          setNotifyToasts([
+            ...notifyToasts,
             {
-              uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
+              uniqueId: `toast-${file.name}-${notifyToasts.length + 1}`,
               text: "Failed to load the DB.",
               level: NotifyToastLevel.Fail,
             },
@@ -110,20 +108,20 @@ const UploadFile = (props: UploadFileProps) => {
           setOsuCollectionDB(data.data);
         }
 
-        setNotifyToastList([
-          ...notifyToastList,
+        setNotifyToasts([
+          ...notifyToasts,
           {
-            uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
+            uniqueId: `toast-${file.name}-${notifyToasts.length + 1}`,
             text: `Loading ${file.name} completed successfully.`,
             level: NotifyToastLevel.Success,
           },
         ]);
       } catch (e) {
         alert(e);
-        setNotifyToastList([
-          ...notifyToastList,
+        setNotifyToasts([
+          ...notifyToasts,
           {
-            uniqueId: `toast-${file.name}-${notifyToastList.length + 1}`,
+            uniqueId: `toast-${file.name}-${notifyToasts.length + 1}`,
             text: `${e}`,
             level: NotifyToastLevel.Success,
           },

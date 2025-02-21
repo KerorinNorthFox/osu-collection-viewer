@@ -1,7 +1,7 @@
 import { logger } from "@/lib/logger/logger";
 
 // osu!apiのトークンを発行する
-export async function issueToken(
+export default async function issueToken(
   osuClientId: number,
   osuClientSecret: string,
   osuRedirectUrl: string,

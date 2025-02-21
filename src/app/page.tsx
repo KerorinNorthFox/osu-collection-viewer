@@ -1,6 +1,7 @@
-import HomeScreen from "@/components/screens/HomeScreen";
+import MainScreen from "@/components/screens/MainScreen";
+import NotificationBannerScreen from "@/components/screens/NotificationBannerScreen";
 import OsuTokenProvider from "@/components/store/OsuTokenProvider";
-import { issueToken } from "@/lib/fetch/issueToken";
+import issueToken from "@/lib/fetch/issueToken";
 
 const Home = async () => {
   let token: string;
@@ -27,7 +28,9 @@ const Home = async () => {
 
   return (
     <OsuTokenProvider token={token}>
-      <HomeScreen />
+      <NotificationBannerScreen>
+        <MainScreen />
+      </NotificationBannerScreen>
     </OsuTokenProvider>
   );
 };

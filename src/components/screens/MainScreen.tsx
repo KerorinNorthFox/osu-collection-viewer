@@ -4,8 +4,7 @@ import { OsuCollectionDB, OsuDB } from "@/lib/types/external";
 import { useEffect, useState } from "react";
 import TimeLine from "@/components/timeline/TimeLine";
 import TimeLineContent from "@/components/timeline/TimeLineContent";
-import { NotifyToastContent } from "@/components/toast/NotifyToast";
-import NotifyToastList from "@/components/toast/NotifyToastList";
+import NotifyToasts from "@/components/toast/NotifyToasts";
 import { logger } from "@/lib/logger/logger";
 import SelectCollectionDropdown from "@/components/SelectCollectionDropdown";
 import ApplyButton from "../button/ApplyButton";
@@ -13,7 +12,7 @@ import { matchEachMd5 } from "@/lib/filter";
 import { fetchScoreInfo } from "@/lib/fetch";
 import { useOsuToken } from "@/components/store/OsuTokenProvider";
 
-const HomeScreen = () => {
+const MainScreen = () => {
   const token = useOsuToken();
   const [osuDB, setOsuDB] = useState<OsuDB | null>(null);
   const [osuCollectionDB, setOsuCollectionDB] =
@@ -21,10 +20,6 @@ const HomeScreen = () => {
   const [isLoadDBCompleted, setIsLoadDBCompleted] = useState(false);
   // 選択されたコレクションのindex
   const [selectedCollectionIndex, setSelectedCollectionIndex] = useState(-1);
-  // 右下の通知のリスト
-  const [notifyToastList, setNotifyToastList] = useState<
-    Array<NotifyToastContent>
-  >([]);
 
   // osu!.dbとcollection.dbがどちらも読み込まれているか判定
   useEffect(() => {
@@ -60,8 +55,6 @@ const HomeScreen = () => {
               <UploadFile
                 setOsuDB={setOsuDB}
                 setOsuCollectionDB={setOsuCollectionDB}
-                notifyToastList={notifyToastList}
-                setNotifyToastList={setNotifyToastList}
               />
               <p className="m-1 text-end text-sm">
                 <span className={osuDB ? "text-green-400" : "text-red-400"}>
@@ -102,12 +95,9 @@ const HomeScreen = () => {
         </TimeLine>
       </div>
 
-      <NotifyToastList
-        notifyToastList={notifyToastList}
-        setNotifyToastList={setNotifyToastList}
-      />
+      <NotifyToasts />
     </>
   );
 };
 
-export default HomeScreen;
+export default MainScreen;
